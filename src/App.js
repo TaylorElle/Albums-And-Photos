@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Details from "./Details";
 
 function App() {
+  //use effect to fetch the info
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then(setUsers);
+  }, []);
+  //return a map and map through it to get each individual user
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Users</h1>
+      {users.map((user) => {
+        return (
+          <div key={user.id}>
+            <Details user={user} />
+          </div>
+        );
+      })}
     </div>
   );
 }
